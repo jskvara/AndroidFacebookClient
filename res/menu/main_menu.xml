@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/login" android:title="@string/login"></item>
+    <item android:id="@+id/friends" android:title="@string/friends"></item>
+    <item android:id="@+id/newsfeed" android:title="@string/newsfeed"></item>
+</menu>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, FacebookClientActivity!</string>
+    <string name="app_name">FacebookClient</string>
+    
+    <string name="login">Login</string>
+    <string name="friends">Friends</string>
+    <string name="newsfeed">News feed</string>
+    
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="logged_in">Logged in</string>
+    <string name="logged_out">Logged out</string>
+    
+    <string name="status_not_exist">Status doesn\'t exist</string>
+    <string name="likes">Likes</string>
+    <string name="comments">Comments</string>
+    
+    <string name="notification_title">Facebook updated</string>
+    <string name="notification_fail">Updating failed</string>
+    <string name="notification_success">Tap to launch FacebookClient</string>
+    
+    <string name="loading">Loading &#8230;</string>
+    <string name="no_internet">No internet conection</string>
+    <string name="error_text">Error</string>
+    <string name="profile_image">Profile image</string>
+    <string name="filter">Filter</string>
+    <string name="empty">No data</string>
+</resources>
