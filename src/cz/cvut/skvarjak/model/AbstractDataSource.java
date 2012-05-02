@@ -35,9 +35,12 @@ public abstract class AbstractDataSource {
 		public void initNewsDb(SQLiteDatabase db) {
 			String create = "CREATE TABLE " + NewsDataSource.TABLE_NAME + " (" +
 					NewsDataSource.COLUMN_ID + " TEXT PRIMARY KEY, " +
-					NewsDataSource.COLUMN_FROM + " TEXT NOT NULL, " +
-					NewsDataSource.COLUMN_MESSAGE + " TEXT NOT NULL, " +
-					NewsDataSource.COLUMN_TYPE + " TEXT NOT NULL, " +
+					NewsDataSource.COLUMN_FROM + " TEXT NOT NULL DEFAULT '', " +
+					NewsDataSource.COLUMN_FROM_ID + " INTEGER NOT NULL, " +
+					NewsDataSource.COLUMN_MESSAGE + " TEXT NOT NULL DEFAULT '', " +
+					NewsDataSource.COLUMN_TYPE + " TEXT NOT NULL DEFAULT 'status', " +
+					NewsDataSource.COLUMN_LINK + " TEXT NOT NULL DEFAULT '', " +
+					NewsDataSource.COLUMN_PHOTO + " TEXT NOT NULL DEFAULT '', " +
 					NewsDataSource.COLUMN_TIME + " INTEGER NOT NULL, " +
 					NewsDataSource.COLUMN_LIKES + " INTEGER NOT NULL DEFAULT 0, " +
 					NewsDataSource.COLUMN_COMMENTS + " INTEGER NOT NULL DEFAULT 0" +
@@ -49,7 +52,8 @@ public abstract class AbstractDataSource {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 					+ newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS routes");
+			db.execSQL("DROP TABLE IF EXISTS " + NewsDataSource.TABLE_NAME);
+			db.execSQL("DROP TABLE IF EXISTS " + FriendsDataSource.TABLE_NAME);
 			onCreate(db);
 		}
 	}
@@ -61,6 +65,7 @@ public abstract class AbstractDataSource {
 
 	public void open() {
 		mDb = mDbHelper.getWritableDatabase();
+		//mDb.
 	}
 	
 	public boolean isOpen() {

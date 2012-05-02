@@ -28,6 +28,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StatusActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <service
       		android:name=".model.FacebookDownloaderService" />

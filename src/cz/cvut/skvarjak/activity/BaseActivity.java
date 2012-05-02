@@ -62,7 +62,7 @@ abstract public class BaseActivity extends Activity {
 			// login
 			case R.id.login:
 				Facebook mFacebook = ((GlobalState) getApplication()).getFacebook();
-				if (mFacebook.isSessionValid()) { // logout
+				if (isLogged()) { // logout
 					((GlobalState) getApplication()).getAsyncRunner()
 						.logout(getBaseContext(), new LogoutRequestListener());
 					SessionStore.clear(getBaseContext());
@@ -94,6 +94,7 @@ abstract public class BaseActivity extends Activity {
 			SessionStore.save(mFacebook, getBaseContext());
 			Toast.makeText(getApplicationContext(), getString(R.string.logged_in), 
 					Toast.LENGTH_LONG).show();
+			onLogin();
 		}
 		@Override
 		public void onError(DialogError e) {
@@ -112,6 +113,7 @@ abstract public class BaseActivity extends Activity {
 					Toast.makeText(getApplicationContext(), 
 							getString(R.string.logged_out), Toast.LENGTH_LONG)
 							.show();
+					onLogout();
 				}
 			});
 		}
@@ -121,8 +123,8 @@ abstract public class BaseActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Facebook mFacebook = ((GlobalState) getApplication()).getFacebook();
-		mFacebook.authorizeCallback(requestCode, resultCode, data);
+		Facebook fb = ((GlobalState) getApplication()).getFacebook();
+		fb.authorizeCallback(requestCode, resultCode, data);
 	}
 	
 	protected void startFriendsActivity() {
@@ -133,5 +135,16 @@ abstract public class BaseActivity extends Activity {
 	protected void startNewsActivity() {
 		Intent intent2 = new Intent(this, NewsActivity.class);
 		startActivity(intent2);
+	}
+	
+	protected boolean isLogged() {
+		Facebook fb = ((GlobalState) getApplication()).getFacebook();
+		return fb.isSessionValid();
+	}
+	
+	protected void onLogin() {
+	}
+	
+	protected void onLogout() {
 	}
 }

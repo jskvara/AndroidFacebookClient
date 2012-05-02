@@ -1,7 +1,7 @@
 package cz.cvut.skvarjak.activity;
 
 import cz.cvut.skvarjak.R;
-import cz.cvut.skvarjak.model.FriendsAdapter;
+import cz.cvut.skvarjak.adapter.FriendsAdapter;
 import cz.cvut.skvarjak.model.FriendsDataSource;
 import android.database.Cursor;
 import android.os.Bundle;

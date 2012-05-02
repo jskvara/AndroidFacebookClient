@@ -10,6 +10,7 @@ public class GlobalState extends Application {
 		"publish_stream", "read_stream"};
 	private AsyncFacebookRunner mAsyncRunner;
 	private Facebook mFacebook;
+	private String until = "";
 
 	public AsyncFacebookRunner getAsyncRunner() {
 		if (mAsyncRunner == null) {
@@ -33,5 +34,13 @@ public class GlobalState extends Application {
 
 	public void setFacebook(Facebook mFacebook) {
 		this.mFacebook = mFacebook;
+	}
+	
+	public void setUntil(String until) {
+		this.until = until;
+	}
+	
+	public String getUntil() {
+		return until;
 	}
 }

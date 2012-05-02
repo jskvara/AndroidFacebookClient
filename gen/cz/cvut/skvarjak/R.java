@@ -10,63 +10,100 @@ package cz.cvut.skvarjak;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int black=0x7f040003;
+        public static final int dark_slate_gray=0x7f040000;
+        public static final int gray_1=0x7f040002;
+        public static final int gray_2=0x7f040001;
+    }
     public static final class drawable {
         public static final int close=0x7f020000;
         public static final int facebook_icon=0x7f020001;
         public static final int ic_launcher=0x7f020002;
-        public static final int profile_f=0x7f020003;
-        public static final int profile_m=0x7f020004;
+        public static final int ic_pulltorefresh_arrow=0x7f020003;
+        public static final int profile_f=0x7f020004;
+        public static final int profile_m=0x7f020005;
+        public static final int progress_bar=0x7f020006;
     }
     public static final class id {
-        public static final int friend_item=0x7f060006;
-        public static final int friends=0x7f06000b;
-        public static final int friends_filter=0x7f060005;
-        public static final int friends_layout=0x7f060004;
-        public static final int from=0x7f060001;
-        public static final int login=0x7f06000d;
-        public static final int message=0x7f060002;
-        public static final int name=0x7f060008;
-        public static final int news=0x7f06000a;
-        public static final int news_layout=0x7f06000c;
-        public static final int newsfeed=0x7f06000e;
-        public static final int picture=0x7f060000;
-        public static final int profile_pic=0x7f060007;
-        public static final int time=0x7f060003;
-        public static final int txt=0x7f060009;
+        public static final int bottom_control_bar=0x7f070017;
+        public static final int comment_text=0x7f070018;
+        public static final int friend_item=0x7f070007;
+        public static final int friends=0x7f07000f;
+        public static final int friends_filter=0x7f070006;
+        public static final int friends_layout=0x7f070005;
+        public static final int from=0x7f070001;
+        public static final int like=0x7f07001a;
+        public static final int likes=0x7f070003;
+        public static final int load_more_footer=0x7f07000a;
+        public static final int load_more_progressBar=0x7f07000c;
+        public static final int login=0x7f07001b;
+        public static final int message=0x7f070004;
+        public static final int name=0x7f070009;
+        public static final int news=0x7f07000e;
+        public static final int news_layout=0x7f070010;
+        public static final int newsfeed=0x7f07001c;
+        public static final int photo=0x7f070011;
+        public static final int picture=0x7f070000;
+        public static final int post_comment=0x7f070019;
+        public static final int profile_pic=0x7f070008;
+        public static final int pull_to_refresh_header=0x7f070012;
+        public static final int pull_to_refresh_image=0x7f070014;
+        public static final int pull_to_refresh_progress=0x7f070013;
+        public static final int pull_to_refresh_text=0x7f070015;
+        public static final int pull_to_refresh_updated_at=0x7f070016;
+        public static final int time=0x7f070002;
+        public static final int top_line=0x7f07000b;
+        public static final int txt=0x7f07000d;
     }
     public static final class layout {
         public static final int comments_row=0x7f030000;
         public static final int friends_layout=0x7f030001;
         public static final int friends_row=0x7f030002;
-        public static final int main_layout=0x7f030003;
-        public static final int news_layout=0x7f030004;
-        public static final int photo_row=0x7f030005;
-        public static final int status_layout=0x7f030006;
-        public static final int status_row=0x7f030007;
+        public static final int load_more_footer=0x7f030003;
+        public static final int main_layout=0x7f030004;
+        public static final int news_layout=0x7f030005;
+        public static final int photo_row=0x7f030006;
+        public static final int pull_to_refresh_header=0x7f030007;
+        public static final int status_layout=0x7f030008;
+        public static final int status_row=0x7f030009;
     }
     public static final class menu {
-        public static final int main_menu=0x7f050000;
+        public static final int main_menu=0x7f060000;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int comments=0x7f04000a;
-        public static final int empty=0x7f040013;
-        public static final int error_text=0x7f040010;
-        public static final int filter=0x7f040012;
-        public static final int friends=0x7f040003;
-        public static final int hello=0x7f040000;
-        public static final int likes=0x7f040009;
-        public static final int loading=0x7f04000e;
-        public static final int logged_in=0x7f040006;
-        public static final int logged_out=0x7f040007;
-        public static final int login=0x7f040002;
-        public static final int logout=0x7f040005;
-        public static final int newsfeed=0x7f040004;
-        public static final int no_internet=0x7f04000f;
-        public static final int notification_fail=0x7f04000c;
-        public static final int notification_success=0x7f04000d;
-        public static final int notification_title=0x7f04000b;
-        public static final int profile_image=0x7f040011;
-        public static final int status_not_exist=0x7f040008;
+        public static final int app_name=0x7f050001;
+        public static final int comment_empty=0x7f050010;
+        public static final int comment_not_sent=0x7f050013;
+        public static final int comment_sent=0x7f050012;
+        public static final int comments=0x7f05000e;
+        public static final int empty=0x7f050020;
+        public static final int error_text=0x7f05001f;
+        public static final int filter=0x7f050009;
+        public static final int friends=0x7f050003;
+        public static final int hello=0x7f050000;
+        public static final int like=0x7f050011;
+        public static final int like_not_sent=0x7f050015;
+        public static final int like_sent=0x7f050014;
+        public static final int likes=0x7f05000d;
+        public static final int loading=0x7f05001d;
+        public static final int logged_in=0x7f050006;
+        public static final int logged_out=0x7f050007;
+        public static final int login=0x7f050002;
+        public static final int logout=0x7f050005;
+        public static final int newsfeed=0x7f050004;
+        public static final int no_internet=0x7f05001e;
+        public static final int not_logged=0x7f050008;
+        public static final int notification_fail=0x7f05001b;
+        public static final int notification_success=0x7f05001c;
+        public static final int notification_title=0x7f05001a;
+        public static final int photo=0x7f05000b;
+        public static final int post_comment=0x7f05000f;
+        public static final int profile_image=0x7f05000a;
+        public static final int pull_to_refresh_pull_label=0x7f050016;
+        public static final int pull_to_refresh_refreshing_label=0x7f050018;
+        public static final int pull_to_refresh_release_label=0x7f050017;
+        public static final int pull_to_refresh_tap_label=0x7f050019;
+        public static final int status_not_exist=0x7f05000c;
     }
 }

@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 public class ImageDownloader {
 	private static final String TAG = "FacebookClient.ImageDownloader";
-	/*protected Hashtable<String, Bitmap> friendsImages;
+	/*protected Hashtable<String, Bitmap> friendsImages; TODO
 	protected Hashtable<String, String> positionRequested;
 	protected BaseAdapter listener;
 	protected int runningCount = 0;
@@ -171,6 +171,18 @@ public class ImageDownloader {
 	public void downloadProfilePicture(String uid, ImageView imageView) {
 		String url = String.format(PROFILE_IMAGE_URL, uid);
 		
+		resetPurgeTimer();
+		Bitmap bitmap = getBitmapFromCache(url);
+
+		if (bitmap == null) {
+			forceDownload(url, imageView);
+		} else {
+			cancelPotentialDownload(url, imageView);
+			imageView.setImageBitmap(bitmap);
+		}
+	}
+	
+	public void downloadPicture(String url, ImageView imageView) {
 		resetPurgeTimer();
 		Bitmap bitmap = getBitmapFromCache(url);
 

@@ -120,4 +120,9 @@ abstract public class BaseListActivity extends ListActivity {
 		Facebook mFacebook = ((GlobalState) getApplication()).getFacebook();
 		mFacebook.authorizeCallback(requestCode, resultCode, data);
 	}
+	
+	protected boolean isLogged() {
+		Facebook fb = ((GlobalState) getApplication()).getFacebook();
+		return fb.isSessionValid();
+	}
 }

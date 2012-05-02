@@ -11,19 +11,35 @@
     <string name="logout">Logout</string>
     <string name="logged_in">Logged in</string>
     <string name="logged_out">Logged out</string>
+    <string name="not_logged">Not logged in</string>
     
-    <string name="status_not_exist">Status doesn\'t exist</string>
+    <string name="filter">Filter</string>
+    
+    <string name="profile_image">Profile image</string>
+    <string name="photo">Photo</string>
+    
+    <string name="status_not_exist">Status does not exist</string>
     <string name="likes">Likes</string>
     <string name="comments">Comments</string>
+    <string name="post_comment">Post</string>
+    <string name="comment_empty">Comment text is empty</string>
+    <string name="like">Like</string>
+    <string name="comment_sent">Comment was sent</string>
+    <string name="comment_not_sent">Error, comment was not sent</string>
+    <string name="like_sent">Status was liked</string>
+    <string name="like_not_sent">Error, status was not liked</string>
+    
+    <string name="pull_to_refresh_pull_label">Pull to refresh&#8230;</string>
+    <string name="pull_to_refresh_release_label">Release to refresh&#8230;</string>
+    <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
     
     <string name="notification_title">Facebook updated</string>
     <string name="notification_fail">Updating failed</string>
     <string name="notification_success">Tap to launch FacebookClient</string>
     
     <string name="loading">Loading &#8230;</string>
-    <string name="no_internet">No internet conection</string>
+    <string name="no_internet">No internet connection</string>
     <string name="error_text">Error</string>
-    <string name="profile_image">Profile image</string>
-    <string name="filter">Filter</string>
     <string name="empty">No data</string>
 </resources>

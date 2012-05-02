@@ -1,35 +1,35 @@
 package cz.cvut.skvarjak.model;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
-
-public class NewsAdapter extends SimpleCursorAdapter {
-	protected static final String TAG = "FacebookClient.FriendsAdapter";
-
-	public NewsAdapter(Context context, int layout, Cursor c,
-			String[] from, int[] to) {
-		super(context, layout, c, from, to);
-
-		setViewBinder(new FriendsViewBinder());
-	}
-
-	public class FriendsViewBinder implements SimpleCursorAdapter.ViewBinder {
-		private final ImageDownloader imageDownloader = new ImageDownloader();
-		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-			Log.d(TAG, "ColumnIndex: " + columnIndex);
-			int index = cursor.getColumnIndex(FriendsDataSource.COLUMN_ID);
-			if (columnIndex == index) {
-				imageDownloader.downloadProfilePicture(cursor.getString(columnIndex), (ImageView) view);
-				return true;
-			}
-			return false;
-		}
-	}
-}
+// TODO
+//import android.content.Context;
+//import android.database.Cursor;
+//import android.util.Log;
+//import android.view.View;
+//import android.widget.ImageView;
+//import android.widget.SimpleCursorAdapter;
+//
+//public class NewsAdapter extends SimpleCursorAdapter {
+//	protected static final String TAG = "FacebookClient.FriendsAdapter";
+//
+//	public NewsAdapter(Context context, int layout, Cursor c,
+//			String[] from, int[] to) {
+//		super(context, layout, c, from, to);
+//
+//		setViewBinder(new FriendsViewBinder());
+//	}
+//
+//	public class FriendsViewBinder implements SimpleCursorAdapter.ViewBinder {
+//		private final ImageDownloader imageDownloader = new ImageDownloader();
+//		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+//			Log.d(TAG, "ColumnIndex: " + columnIndex);
+//			int index = cursor.getColumnIndex(FriendsDataSource.COLUMN_ID);
+//			if (columnIndex == index) {
+//				imageDownloader.downloadProfilePicture(cursor.getString(columnIndex), (ImageView) view);
+//				return true;
+//			}
+//			return false;
+//		}
+//	}
+//}
 
 /*private class FriendsAdapter extends BaseAdapter {
 	private final Context mContext;

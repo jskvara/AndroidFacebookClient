@@ -93,9 +93,16 @@ public class JSONParser {
 	public String getTime() {
 		String ret = "";
 		try {
-			ret = jsonObject.getString("created_time");
+			ret = jsonObject.getString("updated_time");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+		}
+		
+		if (ret.equals("")) { // comments have only created_time
+			try {
+				ret = jsonObject.getString("created_time");
+			} catch (JSONException e) {
+				Log.w(TAG, e.getMessage() + "Id: " + getId(), e);
+			}
 		}
 		
 		return ret;
@@ -118,6 +125,39 @@ public class JSONParser {
 			ret = jsonObject.getString("type");
 		} catch (JSONException e) {
 			Log.w(TAG, e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
+	public String getLink() {
+		String ret = "";
+		try {
+			ret = jsonObject.getString("link");
+		} catch (JSONException e) {
+			Log.w(TAG, e.getMessage(), e);
+		}
+		
+		return ret;
+	}
+	
+	public String getPicture() {
+		String ret = "";
+		try {
+			ret = jsonObject.getString("picture");
+		} catch (JSONException e) {
+			Log.w(TAG, e.getMessage() + ", Id: " + getId(), e);
+		}
+		
+		return ret;
+	}
+	
+	public String getName() {
+		String ret = "";
+		try {
+			ret = jsonObject.getString("name");
+		} catch (JSONException e) {
+			Log.w(TAG, e.getMessage() + ", Id: " + getId(), e);
 		}
 		
 		return ret;
