@@ -186,6 +186,7 @@ public class NewsAdapter extends CursorAdapter {
 				.getColumnIndexOrThrow(NewsDataSource.COLUMN_COMMENTS);
 		view.setTag(holder);
 
+		parent.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 		return view;
 	}
 

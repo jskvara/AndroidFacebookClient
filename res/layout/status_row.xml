@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants" >
 
     <ImageView
         android:id="@+id/picture"
@@ -37,6 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/likes"
-        android:autoLink="web" />
+        android:autoLink="web"
+        android:focusable="false" />
 
 </RelativeLayout>

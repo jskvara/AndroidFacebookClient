@@ -1,5 +1,6 @@
 package cz.cvut.skvarjak.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,13 +8,20 @@ import android.util.Log;
 
 public class JSONParser {
 	protected static final String TAG = "FacebookClient.JSONParser";
+	protected static final boolean DEBUG = false;
 	protected JSONObject jsonObject = null;
+	
+	protected void log(String message, Throwable e) {
+		if (DEBUG) {
+			Log.w(TAG, message, e);
+		}
+	}
 	
 	public JSONParser(String json) {
 		try {
 			jsonObject = new JSONObject(json);
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e); 
 		}
 	}
 	
@@ -26,7 +34,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getJSONObject("from").getString("name");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return ret;
@@ -37,7 +45,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getJSONObject("from").getString("id");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return ret;
@@ -84,7 +92,7 @@ public class JSONParser {
 				ret = comments.getInt("count");
 			}
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return ret;
@@ -101,7 +109,7 @@ public class JSONParser {
 			try {
 				ret = jsonObject.getString("created_time");
 			} catch (JSONException e) {
-				Log.w(TAG, e.getMessage() + "Id: " + getId(), e);
+				log(e.getMessage() + "Id: " + getId(), e);
 			}
 		}
 		
@@ -113,7 +121,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getString("id");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return ret;
@@ -124,7 +132,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getString("type");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return ret;
@@ -135,7 +143,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getString("link");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage() + ", Id: " + getId(), e);
 		}
 		
 		return ret;
@@ -146,7 +154,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getString("picture");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage() + ", Id: " + getId(), e);
+			log(e.getMessage() + ", Id: " + getId(), e);
 		}
 		
 		return ret;
@@ -157,7 +165,7 @@ public class JSONParser {
 		try {
 			ret = jsonObject.getString("name");
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage() + ", Id: " + getId(), e);
+			log(e.getMessage() + ", Id: " + getId(), e);
 		}
 		
 		return ret;
@@ -169,11 +177,13 @@ public class JSONParser {
 		try {
 			comments = jsonObject.getJSONObject("comments");
 			if (comments != null) {
-				jsonParser = new JSONParser(comments.getJSONArray("data").
-						getJSONObject(position));
+				JSONArray data = comments.getJSONArray("data");
+				if (data != null) {
+					jsonParser = new JSONParser(data.getJSONObject(position));
+				}
 			}
 		} catch (JSONException e) {
-			Log.w(TAG, e.getMessage(), e);
+			log(e.getMessage(), e);
 		}
 		
 		return jsonParser;

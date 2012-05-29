@@ -3,7 +3,7 @@
     android:id="@+id/news_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <cz.cvut.skvarjak.activity.PullAndLoadListView
         android:id="@android:id/list"

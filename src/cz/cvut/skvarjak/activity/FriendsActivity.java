@@ -3,19 +3,27 @@ package cz.cvut.skvarjak.activity;
 import cz.cvut.skvarjak.R;
 import cz.cvut.skvarjak.adapter.FriendsAdapter;
 import cz.cvut.skvarjak.model.FriendsDataSource;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class FriendsActivity extends BaseListActivity {
 	protected static final String TAG = "FacebookClient.FriendsActivity";
 	protected CursorAdapter adapter;
 	protected FriendsDataSource mFriendsDataSource;
+	protected boolean imported = false;
+	protected DataUpdateReceiver dataUpdateReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,11 +31,18 @@ public class FriendsActivity extends BaseListActivity {
 		setContentView(R.layout.friends_layout);
 
 		mFriendsDataSource = new FriendsDataSource(this);
-		mFriendsDataSource.open();
+		mFriendsDataSource.openReadable();
 
-		adapter = new FriendsAdapter(this, R.layout.friends_row,
-				getFriendsCursor(null), new String[] {FriendsDataSource.COLUMN_NAME,
-				FriendsDataSource.COLUMN_ID}, new int[] {R.id.name, R.id.profile_pic});
+		Cursor cursor = getFriendsCursor(null);
+		if (cursor.getCount() == 0) {
+			TextView tv = (TextView) findViewById(android.R.id.empty);
+			tv.setText(R.string.loading);
+		}
+
+		adapter = new FriendsAdapter(this, R.layout.friends_row, cursor,
+				new String[] { FriendsDataSource.COLUMN_NAME,
+						FriendsDataSource.COLUMN_ID }, new int[] { R.id.name,
+						R.id.profile_pic });
 		adapter.setFilterQueryProvider(new FilterQueryProvider() {
 			public Cursor runQuery(CharSequence constraint) {
 				Cursor c = getFriendsCursor(constraint);
@@ -42,9 +57,11 @@ public class FriendsActivity extends BaseListActivity {
 					int count) {
 				adapter.getFilter().filter(s);
 			}
+
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 			}
+
 			public void afterTextChanged(Editable s) {
 			}
 		};
@@ -54,13 +71,6 @@ public class FriendsActivity extends BaseListActivity {
 	public Cursor getFriendsCursor() {
 		Cursor c = mFriendsDataSource.query(null, null, null,
 				FriendsDataSource.COLUMN_NAME);
-		// if (c.getCount() == 0) { // TODO
-		mFriendsDataSource.importFriends();
-		// c = mFriendsDataSource.query(null, null, null,
-		// FriendsDataSource.FRIENDS_COLUMN_NAME);
-		// }
-		// mFriendsDataSource.delete(null, null); // deleteAll
-
 		return c;
 	}
 
@@ -71,9 +81,8 @@ public class FriendsActivity extends BaseListActivity {
 		}
 
 		String constraint = "%" + s.toString() + "%";
-		return mFriendsDataSource.query(null,
-				FriendsDataSource.COLUMN_NAME + " LIKE ?",
-				new String[] { constraint },
+		return mFriendsDataSource.query(null, FriendsDataSource.COLUMN_NAME
+				+ " LIKE ?", new String[] { constraint },
 				FriendsDataSource.COLUMN_NAME);
 	}
 
@@ -81,14 +90,26 @@ public class FriendsActivity extends BaseListActivity {
 	protected void onResume() {
 		mFriendsDataSource.open();
 		refreshAdapter();
+		
+		if (dataUpdateReceiver == null) {
+			dataUpdateReceiver = new DataUpdateReceiver((BaseAdapter)getListAdapter());
+		}
+		IntentFilter intentFilter = new IntentFilter(FacebookDownloaderService.FRIENDS_CHANGED);
+		registerReceiver(dataUpdateReceiver, intentFilter);
+		
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		super.onPause();
+		if (dataUpdateReceiver != null) {
+			unregisterReceiver(dataUpdateReceiver);
+		}
+		
 		((SimpleCursorAdapter) getListAdapter()).getCursor().close();
 		mFriendsDataSource.close();
+		
+		super.onPause();
 	}
 
 	@Override
@@ -101,5 +122,21 @@ public class FriendsActivity extends BaseListActivity {
 	public void refreshAdapter() {
 		((SimpleCursorAdapter) getListAdapter())
 				.changeCursor(getFriendsCursor());
+	}
+	
+	private class DataUpdateReceiver extends BroadcastReceiver {
+		protected BaseAdapter a;
+		
+		public DataUpdateReceiver(BaseAdapter a) {
+			this.a = a;
+		}
+		
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	        if (intent.getAction().equals(FacebookDownloaderService.FRIENDS_CHANGED)) {
+	        	refreshAdapter();
+	        	a.notifyDataSetChanged();
+	        }
+	    }
 	}
 }

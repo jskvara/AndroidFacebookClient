@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, FacebookClientActivity!</string>
+    <string name="hello">Hello in FacebookClient</string>
     <string name="app_name">FacebookClient</string>
     
     <string name="login">Login</string>
@@ -12,6 +12,7 @@
     <string name="logged_in">Logged in</string>
     <string name="logged_out">Logged out</string>
     <string name="not_logged">Not logged in</string>
+    <string name="please_login">Please, log in to your facebook account from menu</string>
     
     <string name="filter">Filter</string>
     

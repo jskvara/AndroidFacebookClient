@@ -21,17 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.FriendsActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.FriendsActivity" />
+        <!-- android:screenOrientation="portrait" -->
         <activity
-            android:name=".activity.NewsActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.NewsActivity" />
         <activity
-            android:name=".activity.StatusActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:name=".activity.StatusActivity" />
+        <!-- android:windowSoftInputMode="adjustResize" -->
         <service
-      		android:name=".model.FacebookDownloaderService" />
+      		android:name=".activity.FacebookDownloaderService" />
     </application>
 
 </manifest>

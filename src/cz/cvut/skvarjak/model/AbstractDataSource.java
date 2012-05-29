@@ -65,7 +65,10 @@ public abstract class AbstractDataSource {
 
 	public void open() {
 		mDb = mDbHelper.getWritableDatabase();
-		//mDb.
+	}
+	
+	public void openReadable() {
+		mDb = mDbHelper.getReadableDatabase();
 	}
 	
 	public boolean isOpen() {

@@ -9,7 +9,10 @@ import cz.cvut.skvarjak.listener.BaseRequestListener;
 import cz.cvut.skvarjak.listener.StatusRequestListener;
 import cz.cvut.skvarjak.model.GlobalState;
 import cz.cvut.skvarjak.model.NewsDataSource;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 public class NewsActivity extends BaseListActivity {
 	protected static final String TAG = "FacebookClient.NewsActivity";
 	protected NewsDataSource mNewsDataSource;
+	protected DataUpdateReceiver dataUpdateReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,15 @@ public class NewsActivity extends BaseListActivity {
 		setContentView(R.layout.news_layout);
 
 		mNewsDataSource = new NewsDataSource(getApplicationContext());
-		Log.d(TAG, "open database");
-		mNewsDataSource.open();
+		mNewsDataSource.openReadable();
 
-		CursorAdapter adapter = new NewsAdapter(this, getNewsCursor());
+		Cursor cursor = getNewsCursor();
+		if (cursor.getCount() == 0) {
+			TextView tv = (TextView) findViewById(android.R.id.empty);
+			tv.setText(R.string.loading);
+		}
+		
+		CursorAdapter adapter = new NewsAdapter(this, cursor);
 		setListAdapter(adapter);
 
 		PullAndLoadListView lv = ((PullAndLoadListView) getListView());
@@ -43,6 +52,8 @@ public class NewsActivity extends BaseListActivity {
 					Toast.makeText(NewsActivity.this, R.string.not_logged,
 							Toast.LENGTH_LONG).show();
 				} else {
+					//Log.d(TAG, "stopService");
+					stopService(new Intent(getApplicationContext(), FacebookDownloaderService.class));
 					long newestTime = mNewsDataSource.getNewestTime();
 					Bundle param = new Bundle();
 					param.putString("since", String.valueOf(newestTime / 1000));
@@ -62,6 +73,9 @@ public class NewsActivity extends BaseListActivity {
 					Toast.makeText(NewsActivity.this, R.string.not_logged,
 							Toast.LENGTH_LONG).show();
 				} else {
+					Log.d(TAG, "stopService");
+					stopService(new Intent(getApplicationContext(), FacebookDownloaderService.class));
+					
 					Bundle param = new Bundle();
 					GlobalState gs = (GlobalState) getApplication();
 					String until = gs.getUntil();
@@ -89,10 +103,16 @@ public class NewsActivity extends BaseListActivity {
 	@Override
 	protected void onResume() {
 		if (!mNewsDataSource.isOpen()) {
-			Log.d(TAG, "open database");
 			mNewsDataSource.open();
 		}
 		refreshAdapter();
+		
+		if (dataUpdateReceiver == null) {
+			dataUpdateReceiver = new DataUpdateReceiver((BaseAdapter)getListAdapter());
+		}
+		IntentFilter intentFilter = new IntentFilter(FacebookDownloaderService.DATA_CHANGED);
+		registerReceiver(dataUpdateReceiver, intentFilter);
+		
 		super.onResume();
 	}
 
@@ -102,7 +122,10 @@ public class NewsActivity extends BaseListActivity {
 
 	@Override
 	protected void onPause() {
-		Log.d(TAG, "close database");
+		if (dataUpdateReceiver != null) {
+			unregisterReceiver(dataUpdateReceiver);
+		}
+		
 		((CursorAdapter) getListAdapter()).getCursor().close();
 		if (mNewsDataSource != null) {
 			mNewsDataSource.close();
@@ -126,6 +149,22 @@ public class NewsActivity extends BaseListActivity {
 
 		StatusRequestListener srl = new StatusRequestListener(this);
 		srl.getStatus(statusId);
+	}
+	
+	private class DataUpdateReceiver extends BroadcastReceiver {
+		protected BaseAdapter a;
+		
+		public DataUpdateReceiver(BaseAdapter a) {
+			this.a = a;
+		}
+		
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	    	if (intent.getAction().equals(FacebookDownloaderService.DATA_CHANGED)) {
+	        	refreshAdapter();
+	        	a.notifyDataSetChanged();
+	        }
+	    }
 	}
 
 	private class RefreshTask extends FacebookDownloaderAsyncTask {
@@ -159,7 +198,7 @@ public class NewsActivity extends BaseListActivity {
 		}
 	}
 
-	class LoadMoreTask extends FacebookDownloaderAsyncTask {
+	private class LoadMoreTask extends FacebookDownloaderAsyncTask {
 		public LoadMoreTask(Context context) {
 			super(context, (GlobalState) getApplication());
 			canSetUntil(true);
@@ -198,7 +237,6 @@ public class NewsActivity extends BaseListActivity {
 		}
 
 		public void onComplete(String response, Object state) {
-			Log.d(TAG, response);
 			new RefreshTask(context).execute(response);
 		}
 	}
@@ -211,7 +249,6 @@ public class NewsActivity extends BaseListActivity {
 		}
 
 		public void onComplete(String response, Object state) {
-			Log.d(TAG, response);
 			new LoadMoreTask(context).execute(response);
 		}
 	}

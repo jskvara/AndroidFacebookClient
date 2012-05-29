@@ -71,6 +71,7 @@ public class StatusRequestListener extends BaseRequestListener {
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 		}
+		
 		super.onFileNotFoundException(e, state);
 	}
 
@@ -79,6 +80,15 @@ public class StatusRequestListener extends BaseRequestListener {
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 		}
+		
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(mActivity.getApplicationContext(),
+						mActivity.getString(R.string.no_internet),
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+		
 		super.onIOException(e, state);
 	}
 
@@ -88,6 +98,7 @@ public class StatusRequestListener extends BaseRequestListener {
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 		}
+		
 		super.onMalformedURLException(e, state);
 	}
 }

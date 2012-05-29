@@ -157,7 +157,7 @@ public class StatusActivity extends BaseListActivity {
 				return TYPE_STATUS;
 			} else if (type.equals("photo")) {
 				return TYPE_PHOTO;
-			} else if (type.equals("video") || type.equals("swf")) {
+			} else if (type.equals("video")) {
 				return TYPE_VIDEO;
 			} else if (type.equals("link")) {
 				return TYPE_LINK;
@@ -216,7 +216,7 @@ public class StatusActivity extends BaseListActivity {
 					|| type == TYPE_SWF) {
 				holder.photo = (ImageView) view.findViewById(R.id.photo);
 			}
-
+			
 			view.setTag(holder);
 
 			return view;
@@ -261,7 +261,9 @@ public class StatusActivity extends BaseListActivity {
 							message = message + " - " + jsonParser.getLink();
 						}
 					} else {
-						holder.photo.setVisibility(View.GONE);
+						if (holder.photo != null) {
+							holder.photo.setVisibility(View.GONE);
+						}
 						message = message + " - " + jsonParser.getLink();
 					}
 				}
@@ -272,13 +274,15 @@ public class StatusActivity extends BaseListActivity {
 			}
 
 			JSONParser comment = jsonParser.getComment(position - 1);
-			holder.from.setText(comment.getFrom());
-			holder.likes.setText(comment.getLikesCount() + " "
-					+ context.getString(R.string.likes));
-			holder.message.setText(comment.getMessage());
-			holder.time.setText(DateUtil.format(comment.getTime()));
-			imageDownloader.downloadProfilePicture(comment.getFromId(),
-					holder.picture);
+			if (comment != null) {
+				holder.from.setText(comment.getFrom());
+				holder.likes.setText(comment.getLikesCount() + " "
+						+ context.getString(R.string.likes));
+				holder.message.setText(comment.getMessage());
+				holder.time.setText(DateUtil.format(comment.getTime()));
+				imageDownloader.downloadProfilePicture(comment.getFromId(),
+						holder.picture);
+			}
 		}
 
 		public Object getItem(int position) {

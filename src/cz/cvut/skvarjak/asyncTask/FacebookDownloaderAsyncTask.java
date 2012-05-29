@@ -17,7 +17,7 @@ import cz.cvut.skvarjak.util.DateUtil;
 
 public class FacebookDownloaderAsyncTask extends
 		AsyncTask<String, Void, Boolean> {
-	protected static final String TAG = "FacebookDowloaderAsyncTask";
+	protected static final String TAG = "FacebookClient.FacebookDowloaderAsyncTask";
 	protected Context context;
 	protected boolean updated = false;
 	protected boolean deleteOld = false;
@@ -73,7 +73,7 @@ public class FacebookDownloaderAsyncTask extends
 					Log.w(TAG, e.getMessage(), e);
 				}
 				
-				Log.d(TAG, "T: "+ time.getTime() + ", " + new Date(time.getTime()).toGMTString());
+				//Log.d(TAG, "T: "+ time.getTime());
 				updated = true;
 
 				String id = status.getId();
@@ -131,7 +131,6 @@ public class FacebookDownloaderAsyncTask extends
 				int ind = until.indexOf("until=");
 				if (ind != -1) {
 					String u = until.substring(ind + 6, ind + 6 + 10); // until has 10 chars
-					Log.d(TAG, "until: " + u);
 					globalState.setUntil(u);
 				}
 			} catch (JSONException e) { // empty response body

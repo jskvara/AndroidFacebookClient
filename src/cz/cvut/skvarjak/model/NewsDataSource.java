@@ -68,7 +68,11 @@ public class NewsDataSource extends AbstractDataSource {
 	}
 
 	public long insert(ContentValues initialValues) {
-		return mDb.insertOrThrow(TABLE_NAME, null, initialValues);
+		if (!mDb.isDbLockedByOtherThreads() && !mDb.isDbLockedByCurrentThread()) {
+			return mDb.insertOrThrow(TABLE_NAME, null, initialValues);
+		}
+		
+		return 0L;
 	}
 
 	public long update(ContentValues values) {
@@ -81,7 +85,7 @@ public class NewsDataSource extends AbstractDataSource {
 	}
 	
 	public int deleteOld() {
-		long dayAgo = new Date(System.currentTimeMillis() - /*1L * 24 TODO **/ 3600 * 1000).getTime();
+		long dayAgo = new Date(System.currentTimeMillis() - 24L * 3600 * 1000).getTime();
 		return mDb.delete(TABLE_NAME, COLUMN_TIME + "<" + dayAgo, null);
 	}
 
